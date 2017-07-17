@@ -188,13 +188,15 @@ BSTR Clb_dhSDkCtrl::CallLogin(LPCTSTR ip, USHORT port, LPCTSTR userName, LPCTSTR
 
 	m_masterDlg.m_DvrUserName.SetString( _T(userName));
 	m_masterDlg.m_DvrPassword.SetString( _T(password));
-	m_masterDlg.m_DvrPort;
+	m_masterDlg.m_DvrPort=port;
 	m_masterDlg.UpdateData(false);
 
 	DWORD   dwIP= inet_addr(ip);
 	unsigned   char   *pIP = (unsigned   char*)&dwIP;
 	m_masterDlg.m_DvrIPAddr.SetAddress(*pIP, *(pIP + 1), *(pIP + 2), *(pIP + 3));
 	m_masterDlg.OnBTLogin();
+	m_masterDlg.m_nChannelCount;//通道数
+	strResult.Format("{\"MaxChannelCount\":\"%d\"}", m_masterDlg.m_nChannelCount);//手写json
 	return strResult.AllocSysString();
 }
 
@@ -204,7 +206,6 @@ BSTR Clb_dhSDkCtrl::CallLogout()
 	AFX_MANAGE_STATE(AfxGetStaticModuleState());
 
 	CString strResult;
-
 	// TODO:  在此添加调度处理程序代码
 	m_masterDlg.OnBTLeave();
 	return strResult.AllocSysString();
