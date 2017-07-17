@@ -49,13 +49,16 @@ protected:
 	afx_msg void AboutBox();
 	afx_msg BSTR CallLogin(LPCTSTR ip, USHORT port, LPCTSTR userName, LPCTSTR password);
 	afx_msg BSTR CallLogout();
-
+	afx_msg BSTR CallPlay(SHORT channelSelected, SHORT playMode);//播放通道0~（maxchannel-1），播放模式0-1
+	afx_msg BSTR CallStopPlay(SHORT screenSelected);
 // 事件映射
 	DECLARE_EVENT_MAP()
 
 // 调度和事件 ID
 public:
 	enum {
+		dispidCallStopPlay = 4L,
+		dispidCallPlay = 3L,
 		dispidCallLogout = 2L,
 		dispidCallLogin = 1L,
 		dispidCallLongin = 1L
@@ -63,5 +66,6 @@ public:
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	afx_msg void OnSize(UINT nType, int cx, int cy);
 protected:
+
 };
 

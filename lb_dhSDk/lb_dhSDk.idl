@@ -25,6 +25,8 @@ library lb_dhSDkLib
 			[id(DISPID_ABOUTBOX)] void AboutBox();
 			[id(1)] BSTR CallLogin(BSTR ip, USHORT port, BSTR userName, BSTR password);
 			[id(2)] BSTR CallLogout();
+			[id(3)] BSTR CallPlay(SHORT channelSelected, SHORT playMode);
+			[id(4)] BSTR CallStopPlay(SHORT screen);
 	};
 
 	//  Clb_dhSDkCtrl 的事件调度接口

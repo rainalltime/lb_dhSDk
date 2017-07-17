@@ -1939,8 +1939,3 @@ void lb_dhSDKdlg::dlgLogout(){
 	}
 
 }
-
-bool lb_dhSDKdlg::setDlgLoginValue(USHORT port, CString userName, CString password)
-{
-	return false;
-}

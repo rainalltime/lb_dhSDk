@@ -168,6 +168,5 @@ public:
 	BOOL			m_bWndExitCycle[16];
 	CCriticalSection m_cs;
 	CCriticalSection m_csPos;
-	bool setDlgLoginValue(USHORT port, CString userName, CString password);
 };
 #endif

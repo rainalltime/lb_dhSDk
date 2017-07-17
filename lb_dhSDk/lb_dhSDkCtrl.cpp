@@ -26,6 +26,8 @@ BEGIN_DISPATCH_MAP(Clb_dhSDkCtrl, COleControl)
 	DISP_FUNCTION_ID(Clb_dhSDkCtrl, "AboutBox", DISPID_ABOUTBOX, AboutBox, VT_EMPTY, VTS_NONE)
 	DISP_FUNCTION_ID(Clb_dhSDkCtrl, "CallLogin", dispidCallLogin, CallLogin, VT_BSTR, VTS_BSTR VTS_UI2 VTS_BSTR VTS_BSTR)
 	DISP_FUNCTION_ID(Clb_dhSDkCtrl, "CallLogout", dispidCallLogout, CallLogout, VT_BSTR, VTS_NONE)
+	DISP_FUNCTION_ID(Clb_dhSDkCtrl, "CallPlay", dispidCallPlay, CallPlay, VT_BSTR, VTS_I2 VTS_I2)
+	DISP_FUNCTION_ID(Clb_dhSDkCtrl, "CallStopPlay", dispidCallStopPlay, CallStopPlay, VT_BSTR, VTS_I2)
 END_DISPATCH_MAP()
 
 // 事件映射
@@ -199,8 +201,6 @@ BSTR Clb_dhSDkCtrl::CallLogin(LPCTSTR ip, USHORT port, LPCTSTR userName, LPCTSTR
 	strResult.Format("{\"MaxChannelCount\":\"%d\"}", m_masterDlg.m_nChannelCount);//手写json
 	return strResult.AllocSysString();
 }
-
-
 BSTR Clb_dhSDkCtrl::CallLogout()
 {
 	AFX_MANAGE_STATE(AfxGetStaticModuleState());
@@ -208,5 +208,37 @@ BSTR Clb_dhSDkCtrl::CallLogout()
 	CString strResult;
 	// TODO:  在此添加调度处理程序代码
 	m_masterDlg.OnBTLeave();
+	return strResult.AllocSysString();
+}
+BSTR Clb_dhSDkCtrl::CallPlay(SHORT channelSelected, SHORT playMode)
+{
+	AFX_MANAGE_STATE(AfxGetStaticModuleState());
+
+	CString strResult;
+
+	// TODO: 在此添加调度处理程序代码
+	//m_masterDlg.m_comboDispNum.SetCurSel(0);
+	m_masterDlg.m_comboChannel.SetCurSel(channelSelected);
+	m_masterDlg.m_comboChannel.SetCurSel(playMode);
+	m_masterDlg.UpdateData(false);
+
+	m_masterDlg.OnBUTTONPlay();
+	return strResult.AllocSysString();
+}
+
+
+BSTR Clb_dhSDkCtrl::CallStopPlay(SHORT screenSelected)
+{
+	AFX_MANAGE_STATE(AfxGetStaticModuleState());
+
+	CString strResult;
+
+
+	// TODO: 在此添加调度处理程序代码
+	m_masterDlg.m_comboDispNum.SetCurSel(screenSelected);
+	m_masterDlg.UpdateData(false);
+
+	m_masterDlg.OnButtonStop();
+
 	return strResult.AllocSysString();
 }
