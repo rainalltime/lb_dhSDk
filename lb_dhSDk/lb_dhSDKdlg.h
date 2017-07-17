@@ -13,6 +13,12 @@
 #include <afxmt.h>
 
 // lb_dhSDKdlg ¶Ô»°¿ò
+typedef enum IsOrNoSuccessControl {
+	ControlUnknown = -2,
+	ControlFail = -1,
+	ControlSuccess = 0
+
+}aaaaaa;
 
 class lb_dhSDKdlg : public CDialog
 {

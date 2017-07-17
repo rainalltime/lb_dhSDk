@@ -73,7 +73,7 @@ IMPLEMENT_OLECTLTYPE(Clb_dhSDkCtrl, IDS_LB_DHSDK, _dwlb_dhSDkOleMisc)
 
 // Clb_dhSDkCtrl::Clb_dhSDkCtrlFactory::UpdateRegistry -
 // 添加或移除 Clb_dhSDkCtrl 的系统注册表项
-
+extern aaaaaa isCallSuccessControl;
 BOOL Clb_dhSDkCtrl::Clb_dhSDkCtrlFactory::UpdateRegistry(BOOL bRegister)
 {
 	// TODO:  验证您的控件是否符合单元模型线程处理规则。
@@ -200,11 +200,11 @@ BSTR Clb_dhSDkCtrl::CallLogin(LPCTSTR ip, USHORT port, LPCTSTR userName, LPCTSTR
 	DWORD   dwIP= inet_addr(ip);
 	unsigned   char   *pIP = (unsigned   char*)&dwIP;
 	m_masterDlg.m_DvrIPAddr.SetAddress(*pIP, *(pIP + 1), *(pIP + 2), *(pIP + 3));
-	isSuccessControl = ControlUnknown;
+	isCallSuccessControl = ControlUnknown;
 	m_masterDlg.OnBTLogin();
 	m_masterDlg.m_nChannelCount;//通道数
-	strResult.Format("{\"MaxChannelCount\":\"%d\",\"IsSuccess\":\"%d\"}", m_masterDlg.m_nChannelCount, isSuccessControl);//手写json
-	isSuccessControl = ControlUnknown;
+	strResult.Format("{\"MaxChannelCount\":\"%d\",\"IsSuccess\":\"%d\"}", m_masterDlg.m_nChannelCount, isCallSuccessControl);//手写json
+	isCallSuccessControl = ControlUnknown;
 	return strResult.AllocSysString();
 }
 BSTR Clb_dhSDkCtrl::CallLogout()
@@ -213,10 +213,10 @@ BSTR Clb_dhSDkCtrl::CallLogout()
 
 	CString strResult;
 	// TODO:  在此添加调度处理程序代码
-	isSuccessControl = ControlUnknown;
+	isCallSuccessControl = ControlUnknown;
 	m_masterDlg.OnBTLeave();
-	strResult.Format("{\"IsSuccess\":\"d%\"}", isSuccessControl);
-	isSuccessControl = ControlUnknown;
+	strResult.Format("{\"IsSuccess\":\"d%\"}", isCallSuccessControl);
+	isCallSuccessControl = ControlUnknown;
 	return strResult.AllocSysString();
 }
 BSTR Clb_dhSDkCtrl::CallPlay(SHORT channelSelected, SHORT playMode)
@@ -230,10 +230,10 @@ BSTR Clb_dhSDkCtrl::CallPlay(SHORT channelSelected, SHORT playMode)
 	m_masterDlg.m_comboChannel.SetCurSel(channelSelected);
 	m_masterDlg.m_comboChannel.SetCurSel(playMode);
 	m_masterDlg.UpdateData(false);
-	isSuccessControl = ControlUnknown;
+	isCallSuccessControl = ControlUnknown;
 	m_masterDlg.OnBUTTONPlay();
-	strResult.Format("{\"IsSuccess\":\"d%\"}", isSuccessControl);
-	isSuccessControl = ControlUnknown;
+	strResult.Format("{\"IsSuccess\":\"d%\"}", isCallSuccessControl);
+	isCallSuccessControl = ControlUnknown;
 	return strResult.AllocSysString();
 }
 
@@ -248,10 +248,10 @@ BSTR Clb_dhSDkCtrl::CallStopPlay(SHORT screenSelected)
 	// TODO: 在此添加调度处理程序代码
 	m_masterDlg.m_comboDispNum.SetCurSel(screenSelected);
 	m_masterDlg.UpdateData(false);
-	isSuccessControl = ControlUnknown;
+	isCallSuccessControl = ControlUnknown;
 	m_masterDlg.OnButtonStop();
-	strResult.Format("{\"IsSuccess\":\"d%\"}", isSuccessControl);
-	isSuccessControl = ControlUnknown;
+	strResult.Format("{\"IsSuccess\":\"d%\"}", isCallSuccessControl);
+	isCallSuccessControl = ControlUnknown;
 	return strResult.AllocSysString();
 }
 
@@ -283,10 +283,10 @@ BSTR Clb_dhSDkCtrl::CallPTZCommand(USHORT type, VARIANT_BOOL StopOrStart)
 	CString strResult;
 
 	// TODO: 在此添加调度处理程序代码
-	isSuccessControl = ControlUnknown;
+	isCallSuccessControl = ControlUnknown;
 	m_masterDlg.PtzControl(type, StopOrStart);
-	strResult.Format("{\"IsSuccess\":\"d%\"}", isSuccessControl);
-	isSuccessControl=ControlUnknown;
+	strResult.Format("{\"IsSuccess\":\"d%\"}", isCallSuccessControl);
+	isCallSuccessControl=ControlUnknown;
 	return strResult.AllocSysString();
 }
 

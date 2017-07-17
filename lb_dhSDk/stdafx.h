@@ -42,11 +42,5 @@
 
 #endif // _WIN64
 #include <afxcontrolbars.h>
-enum IsSuccessControl {
-	ControlUnknown=-2,
-	ControlFail=-1,
-	ControlSuccess=0
-
-} isSuccessControl;
 
 #endif
