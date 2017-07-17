@@ -347,6 +347,7 @@ void lb_dhSDKdlg::OnBTLogin()
 			&deviceInfo, &err);
 		if (0 != lRet)
 		{
+			isSuccessControl = ControlSuccess;
 			m_LoginID = lRet;
 			GetDlgItem(IDC_BT_Login)->EnableWindow(FALSE);
 			GetDlgItem(IDC_BT_Leave)->EnableWindow(TRUE);
@@ -378,6 +379,7 @@ void lb_dhSDKdlg::OnBTLogin()
 		else
 		{
 			//Display log in failure reason 
+			isSuccessControl = ControlFail;
 			ShowLoginErrorReason(err);
 		}
 	}
@@ -454,6 +456,7 @@ void lb_dhSDKdlg::OnBTLeave()
 		BOOL bSuccess = CLIENT_Logout(m_LoginID);
 		if (bSuccess)
 		{
+			isSuccessControl = ControlSuccess;
 			m_LoginID = 0;
 			m_comboChannel.ResetContent();
 			GetDlgItem(IDC_BT_Login)->EnableWindow(TRUE);
@@ -463,6 +466,7 @@ void lb_dhSDKdlg::OnBTLeave()
 		}
 		else
 		{
+			isSuccessControl = ControlFail;
 			MessageBox(ConvertString("Fail to Logout!"), ConvertString("Prompt"));
 		}
 	}
@@ -600,6 +604,7 @@ void lb_dhSDKdlg::OnButtonStop()
 	int nIndex = m_comboDispNum.GetCurSel();
 	if (CB_ERR != nIndex)
 	{
+		isSuccessControl = ControlSuccess;
 		int iDispNum = m_comboDispNum.GetItemData(nIndex);
 		//Close current video 
 		CloseDispVideo(iDispNum);
@@ -716,12 +721,12 @@ void lb_dhSDKdlg::PtzControl(int type, BOOL stop)
 		 BOOL bRet = CLIENT_DHPTZControl(m_LoginID, iChannel, type, param1, param2, 0, stop);
 		if (bRet)
 		{
-			isSuccessPtzControl = PtzControlunSuccess;
+			isSuccessControl = ControlSuccess;
 			SetDlgItemText(IDC_PTZSTATUS, ConvertString("Succeed"));
 		}
 		else
 		{
-			isSuccessPtzControl = PtzControlunFail;
+			isSuccessControl = ControlFail;
 			SetDlgItemText(IDC_PTZSTATUS, ConvertString("Fail"));
 		}
 	}
@@ -1193,11 +1198,13 @@ void lb_dhSDKdlg::DirectPlayMode(int iDispNum, int iChannel, HWND hWnd)
 	long lRet = CLIENT_RealPlayEx(m_LoginID, iChannel, hWnd);
 	if (0 != lRet)
 	{
+		isSuccessControl = ControlSuccess;
 		m_DispHanle[iDispNum - 1] = lRet;
 		SetPlayVideoInfo(iDispNum, iChannel, DirectMode);
 	}
 	else
 	{
+		isSuccessControl = ControlFail;
 		MessageBox(ConvertString("Fail to play!"), ConvertString("Prompt"));
 	}
 }
@@ -1220,6 +1227,7 @@ void lb_dhSDKdlg::ServerPlayMode(int iDispNum, int iChannel, HWND hWnd)
 			long lRet = CLIENT_RealPlayEx(m_LoginID, iChannel, 0);
 			if (0 != lRet)
 			{
+				isSuccessControl = ControlSuccess;
 				m_DispHanle[iDispNum - 1] = lRet;
 				SetPlayVideoInfo(iDispNum, iChannel, ServerMode);
 				//Callback monitor data and then save 
@@ -1227,6 +1235,8 @@ void lb_dhSDKdlg::ServerPlayMode(int iDispNum, int iChannel, HWND hWnd)
 			}
 			else
 			{
+
+				isSuccessControl = ControlFail;
 				MessageBox(ConvertString("Fail to play!"), ConvertString("Prompt"));
 				PLAY_Stop(iDispNum);
 				PLAY_CloseStream(iDispNum);
@@ -1381,11 +1391,13 @@ void lb_dhSDKdlg::MultiPlayMode(int iDispNum, HWND hWnd)
 				}
 				if (0 != lRet)
 				{
+					isSuccessControl = ControlSuccess;
 					m_DispHanle[iDispNum - 1] = lRet;
 					SetPlayVideoInfo(iDispNum, nChannel, MultiMode);
 				}
 				else
 				{
+					isSuccessControl = ControlFail;
 					MessageBox(ConvertString("Fail to play!"), ConvertString("Prompt"));
 				}
 			}
@@ -1655,6 +1667,7 @@ void lb_dhSDKdlg::MultiPlayServerMode(int iDispNum, HWND hWnd)
 						}
 						if (0 != lRet)
 						{
+							isSuccessControl = ControlSuccess;
 							m_DispHanle[iDispNum - 1] = lRet;
 							SetPlayVideoInfo(iDispNum, nChannel, MultiServerMode);
 							//Save monitor data callback
@@ -1665,6 +1678,8 @@ void lb_dhSDKdlg::MultiPlayServerMode(int iDispNum, HWND hWnd)
 							PLAY_Stop(iDispNum);
 
 							PLAY_CloseStream(iDispNum);
+
+							isSuccessControl = ControlFail;
 							MessageBox(ConvertString("Fail to play!"), ConvertString("Prompt"));
 						}
 					}
