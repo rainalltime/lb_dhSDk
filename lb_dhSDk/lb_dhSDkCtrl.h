@@ -51,12 +51,18 @@ protected:
 	afx_msg BSTR CallLogout();
 	afx_msg BSTR CallPlay(SHORT channelSelected, SHORT playMode);//播放通道0~（maxchannel-1），播放模式0-1
 	afx_msg BSTR CallStopPlay(SHORT screenSelected);
+	afx_msg BSTR CallPTZUpStart();
+	afx_msg void CallPTZUpStop();;
+	afx_msg BSTR CallPTZCommand(USHORT type, VARIANT_BOOL StopOrStart);
 // 事件映射
 	DECLARE_EVENT_MAP()
 
 // 调度和事件 ID
 public:
 	enum {
+		dispidCallPTZCommand = 7L,
+		dispidCallPTZUpStop = 6L,
+		dispidCallPTZUpStart = 5L,
 		dispidCallStopPlay = 4L,
 		dispidCallPlay = 3L,
 		dispidCallLogout = 2L,
@@ -67,5 +73,8 @@ public:
 	afx_msg void OnSize(UINT nType, int cx, int cy);
 protected:
 
+	
+	
+	
 };
 

@@ -42,6 +42,11 @@
 
 #endif // _WIN64
 #include <afxcontrolbars.h>
+enum IsSuccessPtzControl {
+	PtzControlUnknown=0,
+	PtzControlunFail,
+	PtzControlunSuccess
 
+} isSuccessPtzControl;
 
 #endif

@@ -716,10 +716,12 @@ void lb_dhSDKdlg::PtzControl(int type, BOOL stop)
 		 BOOL bRet = CLIENT_DHPTZControl(m_LoginID, iChannel, type, param1, param2, 0, stop);
 		if (bRet)
 		{
+			isSuccessPtzControl = PtzControlunSuccess;
 			SetDlgItemText(IDC_PTZSTATUS, ConvertString("Succeed"));
 		}
 		else
 		{
+			isSuccessPtzControl = PtzControlunFail;
 			SetDlgItemText(IDC_PTZSTATUS, ConvertString("Fail"));
 		}
 	}

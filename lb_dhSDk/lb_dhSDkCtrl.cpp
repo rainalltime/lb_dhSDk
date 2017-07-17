@@ -28,6 +28,9 @@ BEGIN_DISPATCH_MAP(Clb_dhSDkCtrl, COleControl)
 	DISP_FUNCTION_ID(Clb_dhSDkCtrl, "CallLogout", dispidCallLogout, CallLogout, VT_BSTR, VTS_NONE)
 	DISP_FUNCTION_ID(Clb_dhSDkCtrl, "CallPlay", dispidCallPlay, CallPlay, VT_BSTR, VTS_I2 VTS_I2)
 	DISP_FUNCTION_ID(Clb_dhSDkCtrl, "CallStopPlay", dispidCallStopPlay, CallStopPlay, VT_BSTR, VTS_I2)
+	DISP_FUNCTION_ID(Clb_dhSDkCtrl, "CallPTZUpStart", dispidCallPTZUpStart, CallPTZUpStart, VT_BSTR, VTS_NONE)
+	DISP_FUNCTION_ID(Clb_dhSDkCtrl, "CallPTZUpStop", dispidCallPTZUpStop, CallPTZUpStop, VT_EMPTY, VTS_NONE)
+	DISP_FUNCTION_ID(Clb_dhSDkCtrl, "CallPTZCommand", dispidCallPTZCommand, CallPTZCommand, VT_BSTR, VTS_UI2 VTS_BOOL)
 END_DISPATCH_MAP()
 
 // 事件映射
@@ -221,7 +224,6 @@ BSTR Clb_dhSDkCtrl::CallPlay(SHORT channelSelected, SHORT playMode)
 	m_masterDlg.m_comboChannel.SetCurSel(channelSelected);
 	m_masterDlg.m_comboChannel.SetCurSel(playMode);
 	m_masterDlg.UpdateData(false);
-
 	m_masterDlg.OnBUTTONPlay();
 	return strResult.AllocSysString();
 }
@@ -237,8 +239,41 @@ BSTR Clb_dhSDkCtrl::CallStopPlay(SHORT screenSelected)
 	// TODO: 在此添加调度处理程序代码
 	m_masterDlg.m_comboDispNum.SetCurSel(screenSelected);
 	m_masterDlg.UpdateData(false);
-
 	m_masterDlg.OnButtonStop();
 
+	return strResult.AllocSysString();
+}
+
+
+BSTR Clb_dhSDkCtrl::CallPTZUpStart()
+{
+	AFX_MANAGE_STATE(AfxGetStaticModuleState());
+
+	CString strResult;
+
+	// TODO: 在此添加调度处理程序代码
+	m_masterDlg.PtzControl(DH_PTZ_DOWN_CONTROL,0);
+	return strResult.AllocSysString();
+}
+
+
+void Clb_dhSDkCtrl::CallPTZUpStop()
+{
+	AFX_MANAGE_STATE(AfxGetStaticModuleState());
+	m_masterDlg.PtzControl(DH_PTZ_DOWN_CONTROL, 1);
+	// TODO: 在此添加调度处理程序代码
+}
+
+
+BSTR Clb_dhSDkCtrl::CallPTZCommand(USHORT type, VARIANT_BOOL StopOrStart)
+{
+	AFX_MANAGE_STATE(AfxGetStaticModuleState());
+
+	CString strResult;
+
+	// TODO: 在此添加调度处理程序代码
+	m_masterDlg.PtzControl(type, StopOrStart);
+	strResult.Format("{\"IsSuccess\":\"d%\"}", isSuccessPtzControl);
+	isSuccessPtzControl=PtzControlUnknown;
 	return strResult.AllocSysString();
 }

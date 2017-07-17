@@ -19,6 +19,7 @@ class lb_dhSDKdlg : public CDialog
 	DECLARE_DYNAMIC(lb_dhSDKdlg)
 
 public:
+
 	//PTZ extensive control function 
 	void PtzExtControl(DWORD dwCommand, DWORD dwParam = 0);
 	//PTZ control function 
