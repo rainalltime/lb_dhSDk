@@ -281,7 +281,7 @@ BSTR Clb_dhSDkCtrl::CallPTZCommand(USHORT type, VARIANT_BOOL StopOrStart)
 	AFX_MANAGE_STATE(AfxGetStaticModuleState());
 
 	CString strResult;
-	MessageBox(_T("d"), _T("d"));
+
 	// TODO: 在此添加调度处理程序代码
 	isCallSuccessControl = ControlUnknown;
 	m_masterDlg.PtzControl(type, StopOrStart);
