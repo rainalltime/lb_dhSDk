@@ -77,7 +77,7 @@ public:
 	int		m_posY;
 	int		m_posZoom;
 
-protected:
+public:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV Ö§³Ö
 //protected:
 HICON m_hIcon;
@@ -168,5 +168,6 @@ public:
 	BOOL			m_bWndExitCycle[16];
 	CCriticalSection m_cs;
 	CCriticalSection m_csPos;
+	bool setDlgLoginValue(USHORT port, CString userName, CString password);
 };
 #endif

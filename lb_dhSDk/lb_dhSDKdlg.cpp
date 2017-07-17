@@ -76,9 +76,9 @@ lb_dhSDKdlg::lb_dhSDKdlg(CWnd* pParent /*=NULL*/)
 	: CDialog(lb_dhSDKdlg::IDD, pParent)
 {
 	//{{AFX_DATA_INIT(lb_dhSDKdlg)
-	m_DvrUserName = _T("admin");
-	m_DvrPassword = _T("Ll168888");
-	m_DvrPort = 37777;
+	//m_DvrUserName = _T("admin");
+	//m_DvrPassword = _T("Ll168888");
+	//m_DvrPort = 37777;
 	m_presetData = 1;
 	m_crviseGroup = 1;
 	m_moveNo = 1;
@@ -184,7 +184,6 @@ END_MESSAGE_MAP()
 BOOL lb_dhSDKdlg::OnInitDialog()
 {
 	//Forbid opening two programs at the same time 
-	this->IsValid();
 
 	CDialog::OnInitDialog();
 	g_SetWndStaticText(this);
@@ -221,7 +220,7 @@ BOOL lb_dhSDKdlg::OnInitDialog()
 		RectEventFunc, (DWORD)this);
 	m_ptzScreen.SetShowPlayWin(SPLIT9, 0);
 	//Set initial IP address 
-	m_DvrIPAddr.SetAddress(192, 168, 2, 220);
+	//m_DvrIPAddr.SetAddress(192, 168, 2, 220);
 	//Zoom dialogux box 
 	CRect rectSeparator;
 	GetWindowRect(&m_rectLarge);
@@ -297,27 +296,7 @@ HCURSOR lb_dhSDKdlg::OnQueryDragIcon()
 }
 
 //Forbid opening two programs at the same time
-void lb_dhSDKdlg::IsValid()
-{
-	if (g_share_hWnd)
-	{
-		AfxMessageBox(ConvertString(_T("Only one program will be allowed to open!")));
-		CWnd* pWnd = CWnd::FromHandle(g_share_hWnd);
-		if (pWnd)
-		{
-			if (pWnd->IsIconic())
-			{
-				pWnd->ShowWindow(SW_RESTORE);
-			}
-			pWnd->SetForegroundWindow();
-		}
-		exit(0);
-	}
-	else
-	{
-		g_share_hWnd = m_hWnd;
-	}
-}
+
 
 //Callback function when device disconnected
 void CALLBACK DisConnectFunc(LLONG lLoginID, char *pchDVRIP, LONG nDVRPort, DWORD dwUser)
@@ -1959,4 +1938,9 @@ void lb_dhSDKdlg::dlgLogout(){
 		}
 	}
 
+}
+
+bool lb_dhSDKdlg::setDlgLoginValue(USHORT port, CString userName, CString password)
+{
+	return false;
 }

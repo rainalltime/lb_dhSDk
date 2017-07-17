@@ -186,69 +186,15 @@ BSTR Clb_dhSDkCtrl::CallLogin(LPCTSTR ip, USHORT port, LPCTSTR userName, LPCTSTR
 	AFX_MANAGE_STATE(AfxGetStaticModuleState());
 	CString strResult;
 
-	// TODO:  在此添加调度处理程序代码
-	BOOL bValid = UpdateData(TRUE);	//Get interface input 
-	if (bValid)
-	{
-		int err = 0;	//Storage the possible error return value.
-		char *pchDVRIP;
-		CString strDvrIP =ip;
-		pchDVRIP = (LPSTR)(LPCSTR)strDvrIP;
-		WORD wDVRPort = (WORD)port;
-		char *pchUserName = (LPSTR)(LPCSTR)userName;
-		char *pchPassword = (LPSTR)(LPCSTR)password;
-		NET_DEVICEINFO_Ex deviceInfo = { 0 };
-		//Call log in interface 
-		long lRet = CLIENT_LoginEx2(pchDVRIP, wDVRPort, pchUserName,
-			pchPassword, EM_LOGIN_SPEC_CAP_TCP, NULL,
-			&deviceInfo, &err);
-		if (0 != lRet)
-		{
-			m_masterDlg.m_LoginID = lRet;
-			m_masterDlg.GetDlgItem(IDC_BT_Login)->EnableWindow(FALSE);
-			m_masterDlg.GetDlgItem(IDC_BT_Leave)->EnableWindow(TRUE);
-			m_masterDlg.GetDlgItem(IDC_BUTTON_Play)->EnableWindow(TRUE);
-			//Device channel and channel dropdown menu 
-			int nRetLen = 0;
-			NET_DEV_CHN_COUNT_INFO stuChn = { sizeof(NET_DEV_CHN_COUNT_INFO) };
-			stuChn.stuVideoIn.dwSize = sizeof(stuChn.stuVideoIn);
-			stuChn.stuVideoOut.dwSize = sizeof(stuChn.stuVideoOut);
-			CLIENT_QueryDevState(lRet, DH_DEVSTATE_DEV_CHN_COUNT, (char*)&stuChn, stuChn.dwSize, &nRetLen);
-			m_masterDlg.m_nChannelCount = __max(deviceInfo.nChanNum, stuChn.stuVideoIn.nMaxTotal);
-			//m_nChannelCount = (int)deviceInfo.byChanNum;
-			int nIndex = 0;
-			m_masterDlg.m_comboChannel.ResetContent();
-			for (int i = 0; i<m_masterDlg.m_nChannelCount; i++)
-			{
-				CString str;
-				str.Format("%d", i + 1);
-				nIndex = m_masterDlg.m_comboChannel.AddString(str);
-				m_masterDlg.m_comboChannel.SetItemData(nIndex, i);
-			}
-			if (0 < m_masterDlg.m_comboChannel.GetCount())
-			{
-				nIndex = m_masterDlg.m_comboChannel.AddString(ConvertString("Multi_Preview"));
-				m_masterDlg.m_comboChannel.SetItemData(nIndex, -1);
-				m_masterDlg.m_comboChannel.SetCurSel(0);
-			}
-			strResult = "登陆成功";
-		}
-		else
-		{
-			//Display log in failure reason 
-			//m_masterDlg.ShowLoginErrorReason(err);
-	strResult.Format("登录失败，失败代号：%d,可能失败的原因：", err);
-			if (1 == err)		strResult+="Invalid password!";
-			else if (2 == err)	strResult+="Invalid account!";
-			else if (3 == err)	strResult+="Timeout!";
-			else if (4 == err)	strResult+="The user has logged in!";
-			else if (5 == err)	strResult+="The user has been locked!";
-			else if (6 == err)	strResult+="The user has listed into illegal!";
-			else if (7 == err)	strResult+="The system is busy!";
-			else if (9 == err)	strResult+="You Can't find the network server!";
-			else	strResult+= "Login failed!";
-		}
-	}
+	m_masterDlg.m_DvrUserName.SetString( _T(userName));
+	m_masterDlg.m_DvrPassword.SetString( _T(password));
+	m_masterDlg.m_DvrPort;
+	m_masterDlg.UpdateData(false);
+
+	DWORD   dwIP= inet_addr(ip);
+	unsigned   char   *pIP = (unsigned   char*)&dwIP;
+	m_masterDlg.m_DvrIPAddr.SetAddress(*pIP, *(pIP + 1), *(pIP + 2), *(pIP + 3));
+	m_masterDlg.OnBTLogin();
 	return strResult.AllocSysString();
 }
 
@@ -260,6 +206,6 @@ BSTR Clb_dhSDkCtrl::CallLogout()
 	CString strResult;
 
 	// TODO:  在此添加调度处理程序代码
-
+	m_masterDlg.OnBTLeave();
 	return strResult.AllocSysString();
 }
