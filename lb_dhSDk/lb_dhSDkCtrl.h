@@ -149,7 +149,8 @@ protected:
 127	// 右下 + WIDE
 128	// 最大命令值
 	*/
-	
+	afx_msg BSTR CallPTZUpStart();
+	afx_msg void CallPTZUpStop();;
 
 // 事件映射
 	DECLARE_EVENT_MAP()
@@ -172,8 +173,7 @@ public:
 protected:
 
 	
-	afx_msg BSTR CallPTZUpStart();
-	afx_msg void CallPTZUpStop();;
+
 	
 
 };

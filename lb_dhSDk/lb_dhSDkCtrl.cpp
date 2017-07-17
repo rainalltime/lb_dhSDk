@@ -215,7 +215,7 @@ BSTR Clb_dhSDkCtrl::CallLogout()
 	// TODO:  在此添加调度处理程序代码
 	isCallSuccessControl = ControlUnknown;
 	m_masterDlg.OnBTLeave();
-	strResult.Format("{\"IsSuccess\":\"d%\"}", isCallSuccessControl);
+	strResult.Format("{\"IsSuccess\":\"%d\"}", isCallSuccessControl);
 	isCallSuccessControl = ControlUnknown;
 	return strResult.AllocSysString();
 }
@@ -232,7 +232,7 @@ BSTR Clb_dhSDkCtrl::CallPlay(SHORT channelSelected, SHORT playMode)
 	m_masterDlg.UpdateData(false);
 	isCallSuccessControl = ControlUnknown;
 	m_masterDlg.OnBUTTONPlay();
-	strResult.Format("{\"IsSuccess\":\"d%\"}", isCallSuccessControl);
+	strResult.Format("{\"IsSuccess\":\"%d\"}", isCallSuccessControl);
 	isCallSuccessControl = ControlUnknown;
 	return strResult.AllocSysString();
 }
@@ -250,7 +250,7 @@ BSTR Clb_dhSDkCtrl::CallStopPlay(SHORT screenSelected)
 	m_masterDlg.UpdateData(false);
 	isCallSuccessControl = ControlUnknown;
 	m_masterDlg.OnButtonStop();
-	strResult.Format("{\"IsSuccess\":\"d%\"}", isCallSuccessControl);
+	strResult.Format("{\"IsSuccess\":\"%d\"}", isCallSuccessControl);
 	isCallSuccessControl = ControlUnknown;
 	return strResult.AllocSysString();
 }
@@ -281,11 +281,11 @@ BSTR Clb_dhSDkCtrl::CallPTZCommand(USHORT type, VARIANT_BOOL StopOrStart)
 	AFX_MANAGE_STATE(AfxGetStaticModuleState());
 
 	CString strResult;
-
+	MessageBox(_T("d"), _T("d"));
 	// TODO: 在此添加调度处理程序代码
 	isCallSuccessControl = ControlUnknown;
 	m_masterDlg.PtzControl(type, StopOrStart);
-	strResult.Format("{\"IsSuccess\":\"d%\"}", isCallSuccessControl);
+	strResult.Format("{\"IsSuccess\":\"%d\"}", isCallSuccessControl);
 	isCallSuccessControl=ControlUnknown;
 	return strResult.AllocSysString();
 }
@@ -298,6 +298,6 @@ BSTR Clb_dhSDkCtrl::CallSetSpeed(SHORT SpeedLevel)
 	CString strResult;
 
 	// TODO: 在此添加调度处理程序代码
-	strResult.Format("{\"IsSuccess\":\"d%\"}",  m_masterDlg.m_comboPTZData.SetCurSel(SpeedLevel - 1));
+	strResult.Format("{\"IsSuccess\":\"%d\"}",  m_masterDlg.m_comboPTZData.SetCurSel(SpeedLevel - 1));
 	return strResult.AllocSysString();
 }
