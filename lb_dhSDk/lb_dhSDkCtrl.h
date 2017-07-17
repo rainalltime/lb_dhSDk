@@ -54,12 +54,14 @@ protected:
 	afx_msg BSTR CallPTZUpStart();
 	afx_msg void CallPTZUpStop();;
 	afx_msg BSTR CallPTZCommand(USHORT type, VARIANT_BOOL StopOrStart);
+	afx_msg BSTR CallSetSpeed(SHORT SpeedLevel);
 // 事件映射
 	DECLARE_EVENT_MAP()
 
 // 调度和事件 ID
 public:
 	enum {
+		dispidCallSetSpeed = 8L,
 		dispidCallPTZCommand = 7L,
 		dispidCallPTZUpStop = 6L,
 		dispidCallPTZUpStart = 5L,
@@ -76,5 +78,6 @@ protected:
 	
 	
 	
+
 };
 
