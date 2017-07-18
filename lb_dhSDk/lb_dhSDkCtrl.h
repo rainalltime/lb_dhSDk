@@ -24,7 +24,6 @@ class Clb_dhSDkCtrl : public COleControl
 public:
 	Clb_dhSDkCtrl();
 	lb_dhSDKdlg m_masterDlg;
-
 // 重写
 public:
 	virtual void OnDraw(CDC* pdc, const CRect& rcBounds, const CRect& rcInvalid);
@@ -53,15 +52,36 @@ protected:
 	afx_msg BSTR CallLogin(LPCTSTR ip, USHORT port, LPCTSTR userName, LPCTSTR password);//返回值MaxChannelCount最大通道数，IsSuccess是否成功-2（未知、未调用）-1（失败）0（成功）
 	//登出函数
 	afx_msg BSTR CallLogout();//返回值IsSuccess是否成功-2（未知、未调用）-1（失败）0（成功）
-	//播放函数//播放通道0~（maxchannel-1），播放模式0-1（）
+	//播放函数//播放通道0~（maxchannel-1），播放模式0-1（DirectPlayMode，ServerPlayMode）
 	afx_msg BSTR CallPlay(SHORT channelSelected, SHORT playMode);//IsSuccess是否成功，-2（未知、未调用）-1（失败）0（成功）
-	//停止播放函数//要停止的屏幕，n个屏幕则参数0~（n-1）
+	//多通道播放函数//播放通道0~（maxchannel-1），决定了预览的画面，如当RealPlayType=7（4画面）时，nChannelID为4、5、6、7其中一个值表示预览第5到第7通道的四画面预览，RealPlayType画面预览模式参照realplaytype说明 播放模式0-1（DirectPlayMode，ServerPlayMode）
+	afx_msg BSTR CallMultiPlay(SHORT nChannel, SHORT RealPlayType, SHORT playMode);//IsSuccess是否成功，-2（未知、未调用）-1（失败）0（成功）
+	/*************realplaytype说明 
+数字//意义	
+0	// 实时预览
+1	// 多画面预览
+2	// 实时监视-主码流,等同于DH_RType_Realplay
+3	// 实时监视-从码流1
+4	// 实时监视-从码流2
+5	// 实时监视-从码流3    
+6	// 多画面预览－1画面
+7	// 多画面预览－4画面
+8	// 多画面预览－8画面
+9	// 多画面预览－9画面
+10	// 多画面预览－16画面
+11	// 多画面预览－6画面
+12	// 多画面预览－12画面
+13	// 多画面预览－25画面
+14	// 多画面预览－36画面
+	*/
+																				   //停止播放函数//要停止的屏幕，n个屏幕则参数0~（n-1）
 	afx_msg BSTR CallStopPlay(SHORT screenSelected=0);//IsSuccess是否成功0（成功）
 	//设置云台速度函数//速度级别1-8
 	afx_msg BSTR CallSetSpeed(SHORT SpeedLevel);//IsSuccess是否成功，-2（特殊失败）-1（失败）0（成功）
-	//云台控制//type控制类型参照type详细说明，StopOrStart开始还是结束。例1：StopOrStart=false，type=0则云台会一直往上移动.例2：StopOrStart=true，type=0则云台会停止往上移动.
+	//云台控制//type控制类型参照type详细说明，StopOrStart开始还是结束。例1：StopOrStart=0，type=0则云台会一直往上移动.例2：StopOrStart=1，type=0则云台会停止往上移动.
 	afx_msg BSTR CallPTZCommand(USHORT type, VARIANT_BOOL StopOrStart = true);////IsSuccess是否成功，-2（未知、未调用）-1（失败）0（成功）
-	/*type详细说明
+	/*************type详细说明
+参数//意义
 0	// 上
 1	// 下
 2	// 左
@@ -77,7 +97,7 @@ protected:
 12	// 删除
 13	// 点间巡航
 14	// 灯光雨刷
-	
+
 32	// 左上
 33	// 右上
 34	// 左下
@@ -158,6 +178,7 @@ protected:
 // 调度和事件 ID
 public:
 	enum {
+		dispidCallMultiPlay = 9L,
 		dispidCallSetSpeed = 8L,
 		dispidCallPTZCommand = 7L,
 		dispidCallPTZUpStop = 6L,
@@ -172,9 +193,5 @@ public:
 	afx_msg void OnSize(UINT nType, int cx, int cy);
 protected:
 
-	
-
-	
 
 };
-

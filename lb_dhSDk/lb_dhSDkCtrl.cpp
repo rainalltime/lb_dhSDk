@@ -32,6 +32,7 @@ BEGIN_DISPATCH_MAP(Clb_dhSDkCtrl, COleControl)
 	DISP_FUNCTION_ID(Clb_dhSDkCtrl, "CallPTZUpStop", dispidCallPTZUpStop, CallPTZUpStop, VT_EMPTY, VTS_NONE)
 	DISP_FUNCTION_ID(Clb_dhSDkCtrl, "CallPTZCommand", dispidCallPTZCommand, CallPTZCommand, VT_BSTR, VTS_UI2 VTS_BOOL)
 	DISP_FUNCTION_ID(Clb_dhSDkCtrl, "CallSetSpeed", dispidCallSetSpeed, CallSetSpeed, VT_BSTR, VTS_I2)
+	DISP_FUNCTION_ID(Clb_dhSDkCtrl, "CallMultiPlay", dispidCallMultiPlay, CallMultiPlay, VT_BSTR, VTS_I2 VTS_I2 VTS_I2)
 END_DISPATCH_MAP()
 
 // 事件映射
@@ -299,5 +300,15 @@ BSTR Clb_dhSDkCtrl::CallSetSpeed(SHORT SpeedLevel)
 
 	// TODO: 在此添加调度处理程序代码
 	strResult.Format("{\"IsSuccess\":\"%d\"}",  m_masterDlg.m_comboPTZData.SetCurSel(SpeedLevel - 1));
+	return strResult.AllocSysString();
+}
+
+
+BSTR Clb_dhSDkCtrl::CallMultiPlay(SHORT nChannel, SHORT RealPlayType, SHORT playMode)
+{
+	AFX_MANAGE_STATE(AfxGetStaticModuleState());
+	CString strResult;
+	// TODO: 在此添加调度处理程序代码
+	strResult.Format("{\"IsSuccess\":\"%d\"}",  m_masterDlg.DlgMultiPlay(nChannel, RealPlayType, playMode));
 	return strResult.AllocSysString();
 }

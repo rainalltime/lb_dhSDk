@@ -175,5 +175,6 @@ public:
 	BOOL			m_bWndExitCycle[16];
 	CCriticalSection m_cs;
 	CCriticalSection m_csPos;
+	aaaaaa DlgMultiPlay(int nChannel, int RealPlayType, int Play);
 };
 #endif

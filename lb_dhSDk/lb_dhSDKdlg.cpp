@@ -26,7 +26,7 @@ __declspec (allocate("sharesec")) HWND g_share_hWnd = NULL;
 /////////////////////////////////////////////////////////////////////////////
 // CAboutDlg dialog used for App About
 
-aaaaaa isCallSuccessControl = ControlSuccess;
+aaaaaa isCallSuccessControl = ControlUnknown;
 class CAboutDlg : public CDialog
 {
 public:
@@ -1956,4 +1956,101 @@ void lb_dhSDKdlg::dlgLogout(){
 		}
 	}
 
+}
+
+aaaaaa lb_dhSDKdlg::DlgMultiPlay(int nChannel, int RealPlayType, int Playmode)
+{
+	m_comboDispNum.SetCurSel(0);
+	UpdateData(false);
+	isCallSuccessControl = ControlUnknown;
+	BOOL bValid = UpdateData(TRUE);
+	if (bValid)
+	{
+		int nIndex = m_comboDispNum.GetCurSel();
+		if (CB_ERR != nIndex)
+		{
+			int iDispNum = m_comboDispNum.GetItemData(nIndex);
+			//Get video handle 
+			HWND hWnd = GetDispHandle(iDispNum);
+			if (0 != hWnd)
+			{
+				if (Playmode == DirectMode)
+				{
+					//Play directly in multiple-window preview 
+					//Close current video 
+					CloseDispVideo(iDispNum);
+					int nMultiPlay = RealPlayType;
+					if (0 < nMultiPlay)
+					{
+						if (0 != m_LoginID)
+						{
+							if (!SetMultiSpliteMode(nChannel, nMultiPlay))
+							{
+								return aaaaaa(isCallSuccessControl);;
+							}
+							long lRet = 0;
+							lRet = CLIENT_RealPlayEx(m_LoginID, nChannel, hWnd, DH_RealPlayType(nMultiPlay));
+							if (0 != lRet)
+							{
+								isCallSuccessControl = ControlSuccess;
+								m_DispHanle[iDispNum - 1] = lRet;
+								SetPlayVideoInfo(iDispNum, nChannel, MultiMode);
+							}
+							else
+							{
+								isCallSuccessControl = ControlFail;
+								MessageBox(ConvertString("Fail to Multiplay!"), ConvertString("Prompt"));
+							}
+						}
+					}
+				}
+				if (Playmode == ServerMode)
+				{
+					//Data callback play mode in multiple-window preview mode. 					
+					//Close current video 
+					CloseDispVideo(iDispNum);					
+					if (0 < RealPlayType)					
+					{					
+						if (0 != m_LoginID)						
+						{					
+							//Enable stream							
+							BOOL bOpenRet = PLAY_OpenStream(iDispNum, 0, 0, 1024 * 100);							
+							if (bOpenRet)							
+							{//Begin play 								
+								BOOL bPlayRet = PLAY_Play(iDispNum, hWnd);								
+								if (bPlayRet)								
+								{							
+									if (!SetMultiSpliteMode(nChannel, RealPlayType))									
+									{									
+										PLAY_Stop(iDispNum);										
+										PLAY_CloseStream(iDispNum);										
+										return aaaaaa(isCallSuccessControl);;
+									}									
+									//Real-time play 								
+									long lRet = 0;									
+									lRet = CLIENT_RealPlayEx(m_LoginID, nChannel, 0, DH_RealPlayType(RealPlayType));									
+									if (0 != lRet)								
+									{								
+										isCallSuccessControl = ControlSuccess;										
+										m_DispHanle[iDispNum - 1] = lRet;										
+										SetPlayVideoInfo(iDispNum, nChannel, MultiServerMode);										
+										//Save monitor data callback										
+										CLIENT_SetRealDataCallBackEx(lRet, RealDataCallBackEx, (DWORD)this, 0x1f);									
+									}									
+									else								
+									{								
+										PLAY_Stop(iDispNum);										
+										PLAY_CloseStream(iDispNum);										
+										isCallSuccessControl = ControlFail;										
+										MessageBox(ConvertString("Fail to play!"), ConvertString("Prompt"));										
+									}					
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	return aaaaaa(isCallSuccessControl);
 }

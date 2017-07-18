@@ -31,6 +31,7 @@ library lb_dhSDkLib
 			[id(6)] void CallPTZUpStop();
 			[id(7)] BSTR CallPTZCommand(USHORT type, VARIANT_BOOL StopOrStart);
 			[id(8)] BSTR CallSetSpeed(SHORT SpeedLevel);
+			[id(9)] BSTR CallMultiPlay(SHORT nChannel, SHORT RealPlayType, SHORT playMode);
 	};
 
 	//  Clb_dhSDkCtrl 的事件调度接口
