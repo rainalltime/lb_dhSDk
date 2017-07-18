@@ -219,7 +219,7 @@ BOOL lb_dhSDKdlg::OnInitDialog()
 		GetParamsFunc, (DWORD)this,
 		SetParamsFunc, (DWORD)this,
 		RectEventFunc, (DWORD)this);
-	m_ptzScreen.SetShowPlayWin(SPLIT9, 0);
+	m_ptzScreen.SetShowPlayWin(SPLIT1, 0);
 	//Set initial IP address 
 	//m_DvrIPAddr.SetAddress(192, 168, 2, 220);
 	//Zoom dialogux box 
@@ -2053,4 +2053,26 @@ aaaaaa lb_dhSDKdlg::DlgMultiPlay(int nChannel, int RealPlayType, int Playmode)
 		}
 	}
 	return aaaaaa(isCallSuccessControl);
+}
+
+aaaaaa lb_dhSDKdlg::DlgChangeWindows(int height, int width)
+{
+	MoveWindow(0,0,height,width);
+	GetDlgItem(IDC_SCREEN_WINDOW)->MoveWindow(0,0,height,width);
+//	m_ptzScreen.Create(NULL, NULL, WS_CHILD | WS_VISIBLE, CRect(0, 0, 0, 0), this, 1981);
+	UpdataScreenPos();
+	m_ptzScreen.ShowWindow(SW_SHOW);
+	m_ptzScreen.SetCallBack(MessageProcFunc, (DWORD)this,
+		GetParamsFunc, (DWORD)this,
+		SetParamsFunc, (DWORD)this,
+		RectEventFunc, (DWORD)this);
+	m_ptzScreen.SetShowPlayWin(SPLIT1, 0);
+	CRect rectSeparator;
+	GetWindowRect(&m_rectLarge);
+	GetDlgItem(IDC_SEPERATOR)->GetWindowRect(&rectSeparator);
+	m_rectSmall.left = m_rectLarge.left;
+	m_rectSmall.top = m_rectLarge.top;
+	m_rectSmall.right = m_rectLarge.right;
+	m_rectSmall.bottom = rectSeparator.bottom;
+	return aaaaaa(0);
 }

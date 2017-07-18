@@ -48,6 +48,8 @@ protected:
 
 
 	////所有接口的返回类型均为字符串，已经格式化成json。
+	//改变窗口屏幕大小//参数为高和宽。
+	afx_msg  BSTR CallChangeWindows(SHORT height, SHORT width);//返回值IsSuccess是否成功-2（未知、未调用）-1（失败）0（成功）
 	//登录函数//四个参数分别代表DVRip地址，DVR端口号，登录名，登录密码。
 	afx_msg BSTR CallLogin(LPCTSTR ip, USHORT port, LPCTSTR userName, LPCTSTR password);//返回值MaxChannelCount最大通道数，IsSuccess是否成功-2（未知、未调用）-1（失败）0（成功）
 	//登出函数
@@ -178,6 +180,7 @@ protected:
 // 调度和事件 ID
 public:
 	enum {
+		dispidCallChangeWindows = 10L,
 		dispidCallMultiPlay = 9L,
 		dispidCallSetSpeed = 8L,
 		dispidCallPTZCommand = 7L,
@@ -192,6 +195,7 @@ public:
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	afx_msg void OnSize(UINT nType, int cx, int cy);
 protected:
+
 
 
 };

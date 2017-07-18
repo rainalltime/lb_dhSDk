@@ -176,5 +176,6 @@ public:
 	CCriticalSection m_cs;
 	CCriticalSection m_csPos;
 	aaaaaa DlgMultiPlay(int nChannel, int RealPlayType, int Play);
+	aaaaaa DlgChangeWindows(int height, int width);
 };
 #endif

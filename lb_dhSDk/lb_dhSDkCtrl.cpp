@@ -33,6 +33,7 @@ BEGIN_DISPATCH_MAP(Clb_dhSDkCtrl, COleControl)
 	DISP_FUNCTION_ID(Clb_dhSDkCtrl, "CallPTZCommand", dispidCallPTZCommand, CallPTZCommand, VT_BSTR, VTS_UI2 VTS_BOOL)
 	DISP_FUNCTION_ID(Clb_dhSDkCtrl, "CallSetSpeed", dispidCallSetSpeed, CallSetSpeed, VT_BSTR, VTS_I2)
 	DISP_FUNCTION_ID(Clb_dhSDkCtrl, "CallMultiPlay", dispidCallMultiPlay, CallMultiPlay, VT_BSTR, VTS_I2 VTS_I2 VTS_I2)
+	DISP_FUNCTION_ID(Clb_dhSDkCtrl, "CallChangeWindows", dispidCallChangeWindows, CallChangeWindows, VT_BSTR, VTS_I2 VTS_I2)
 END_DISPATCH_MAP()
 
 // 事件映射
@@ -124,8 +125,6 @@ void Clb_dhSDkCtrl::OnDraw(
 		return;
 
 	// TODO:  用您自己的绘图代码替换下面的代码。
-	pdc->FillRect(rcBounds, CBrush::FromHandle((HBRUSH)GetStockObject(WHITE_BRUSH)));
-	pdc->Ellipse(rcBounds);
 }
 
 // Clb_dhSDkCtrl::DoPropExchange - 持久性支持
@@ -310,5 +309,17 @@ BSTR Clb_dhSDkCtrl::CallMultiPlay(SHORT nChannel, SHORT RealPlayType, SHORT play
 	CString strResult;
 	// TODO: 在此添加调度处理程序代码
 	strResult.Format("{\"IsSuccess\":\"%d\"}",  m_masterDlg.DlgMultiPlay(nChannel, RealPlayType, playMode));
+	return strResult.AllocSysString();
+}
+
+
+BSTR Clb_dhSDkCtrl::CallChangeWindows(SHORT height, SHORT width)
+{
+	AFX_MANAGE_STATE(AfxGetStaticModuleState());
+
+	CString strResult;
+
+	// TODO: 在此添加调度处理程序代码
+	strResult.Format("{\"IsSuccess\":\"%d\"}", m_masterDlg.DlgChangeWindows(height, width));
 	return strResult.AllocSysString();
 }
