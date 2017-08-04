@@ -34,6 +34,8 @@ BEGIN_DISPATCH_MAP(Clb_dhSDkCtrl, COleControl)
 	DISP_FUNCTION_ID(Clb_dhSDkCtrl, "CallSetSpeed", dispidCallSetSpeed, CallSetSpeed, VT_BSTR, VTS_I2)
 	DISP_FUNCTION_ID(Clb_dhSDkCtrl, "CallMultiPlay", dispidCallMultiPlay, CallMultiPlay, VT_BSTR, VTS_I2 VTS_I2 VTS_I2)
 	DISP_FUNCTION_ID(Clb_dhSDkCtrl, "CallChangeWindows", dispidCallChangeWindows, CallChangeWindows, VT_BSTR, VTS_I2 VTS_I2)
+	DISP_FUNCTION_ID(Clb_dhSDkCtrl, "test123", dispidtest123, test123, VT_BSTR, VTS_NONE)
+	DISP_FUNCTION_ID(Clb_dhSDkCtrl, "test12121", dispidtest12121, test12121, VT_BSTR, VTS_BSTR)
 END_DISPATCH_MAP()
 
 // 事件映射
@@ -321,5 +323,30 @@ BSTR Clb_dhSDkCtrl::CallChangeWindows(SHORT height, SHORT width)
 
 	// TODO: 在此添加调度处理程序代码
 	strResult.Format("{\"IsSuccess\":\"%d\"}", m_masterDlg.DlgChangeWindows(height, width));
+	return strResult.AllocSysString();
+}
+
+
+BSTR Clb_dhSDkCtrl::test123()
+{
+	AFX_MANAGE_STATE(AfxGetStaticModuleState());
+
+	CString strResult;
+
+	// TODO: 在此添加调度处理程序代码
+
+	return strResult.AllocSysString();
+}
+
+
+BSTR Clb_dhSDkCtrl::test12121(LPCTSTR a)
+{
+	AFX_MANAGE_STATE(AfxGetStaticModuleState());
+
+	CString strResult=a;
+
+	// TODO: 在此添加调度处理程序代码
+
+	MessageBox(strResult, "");
 	return strResult.AllocSysString();
 }

@@ -33,6 +33,7 @@ library lb_dhSDkLib
 			[id(8)] BSTR CallSetSpeed(SHORT SpeedLevel);
 			[id(9)] BSTR CallMultiPlay(SHORT nChannel, SHORT RealPlayType, SHORT playMode);
 			[id(10)] BSTR CallChangeWindows(SHORT height, SHORT width);
+			[id(11)] BSTR test12121(BSTR a);
 	};
 
 	//  Clb_dhSDkCtrl 的事件调度接口

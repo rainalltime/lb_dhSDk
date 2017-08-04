@@ -67,45 +67,45 @@ LRESULT CPlayWnd::DefWindowProc(UINT message, WPARAM wParam, LPARAM lParam)
 		switch(message)
 		{
 	
-		case WM_LBUTTONUP:
-			{
-				
-				pointEnd.x = LOWORD(lParam);
-				pointEnd.y = HIWORD(lParam);
-				if(m_FlagRect == TRUE)
-				{
-					m_FlagRect =FALSE;
-					KillTimer(2);
-					RECT rt;
-					GetClientRect(&rt);
-					pContainer->m_pRectEventFunc(rt,pointStart,pointEnd,pContainer->m_dwRectEvent);
-				}
-			}
-			break;
-		case WM_MOUSEMOVE:
-			{
-				
-				RECT rt;
-				GetClientRect(&rt);
-				long x = LOWORD(lParam);
-				long y = HIWORD(lParam);
-				x = x>rt.right?rt.right:x;
-				x = x<rt.left?rt.left:x;
-				y = y>rt.bottom?rt.bottom:y;
-				y = y<rt.top?rt.top:y;
-				pointEnd.x = x;
-				pointEnd.y = y;
-				
-			}
-			break;
-		case WM_LBUTTONDOWN:
-			{
-			
-				pointStart.x = LOWORD(lParam);
-				pointStart.y = HIWORD(lParam);
-				m_FlagRect =TRUE;
-				SetTimer(2,16,NULL);
-			}
+		//case WM_LBUTTONUP:
+		//	{
+		//		
+		//		pointEnd.x = LOWORD(lParam);
+		//		pointEnd.y = HIWORD(lParam);
+		//		if(m_FlagRect == TRUE)
+		//		{
+		//			m_FlagRect =FALSE;
+		//			KillTimer(2);
+		//			RECT rt;
+		//			GetClientRect(&rt);
+		//			pContainer->m_pRectEventFunc(rt,pointStart,pointEnd,pContainer->m_dwRectEvent);
+		//		}
+		//	}
+		//	break;
+		//case WM_MOUSEMOVE:
+		//	{
+		//		
+		//		RECT rt;
+		//		GetClientRect(&rt);
+		//		long x = LOWORD(lParam);
+		//		long y = HIWORD(lParam);
+		//		x = x>rt.right?rt.right:x;
+		//		x = x<rt.left?rt.left:x;
+		//		y = y>rt.bottom?rt.bottom:y;
+		//		y = y<rt.top?rt.top:y;
+		//		pointEnd.x = x;
+		//		pointEnd.y = y;
+		//		
+		//	}
+		//	break;
+		//case WM_LBUTTONDOWN:
+		//	{
+		//	
+		//		pointStart.x = LOWORD(lParam);
+		//		pointStart.y = HIWORD(lParam);
+		//		m_FlagRect =TRUE;
+		//		SetTimer(2,16,NULL);
+		//	}
 		case WM_RBUTTONDOWN:
 			pContainer->SetActivePage(this);
 			{
@@ -119,7 +119,7 @@ LRESULT CPlayWnd::DefWindowProc(UINT message, WPARAM wParam, LPARAM lParam)
 		case WM_LBUTTONDBLCLK:
 			{
 				BOOL bMulti = pContainer->GetMultiScreen();
-				pContainer->SetMultiScreen(!bMulti);
+				pContainer->SetFullScreen(!pContainer->GetFullScreen());
 			}
 			break;
 		default:

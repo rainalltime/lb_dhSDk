@@ -289,11 +289,11 @@ void CBSWndContainer::SetFullScreen(BOOL bFlag)
 	if(bFlag==m_bFullScreen) return;
 
 	if( bFlag )
-	{//Full screen 
+	{
+		//Full screen 
 		//Get displayer resolution 
 		int cx=GetSystemMetrics(SM_CXSCREEN);
 		int cy=GetSystemMetrics(SM_CYSCREEN);
-
 		//Save position information 
 		GetWindowPlacement(&_temppl);
 		//Modify style 

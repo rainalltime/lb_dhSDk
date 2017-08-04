@@ -180,6 +180,8 @@ protected:
 // 调度和事件 ID
 public:
 	enum {
+		dispidtest12121 = 11L,
+		dispidtest123 = 11L,
 		dispidCallChangeWindows = 10L,
 		dispidCallMultiPlay = 9L,
 		dispidCallSetSpeed = 8L,
@@ -198,4 +200,6 @@ protected:
 
 
 
+	BSTR test123();
+	BSTR test12121(LPCTSTR a);
 };
